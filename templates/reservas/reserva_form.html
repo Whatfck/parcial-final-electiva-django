@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section form-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Reservas</p>
+            <h2>{{ titulo }}</h2>
+        </div>
+        <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">← Volver al listado</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="form-card">
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="form-grid">
+                <div class="field-group field-full">
+                    <label for="{{ form.laboratorio.id_for_label }}">{{ form.laboratorio.label }}</label>
+                    {{ form.laboratorio }}
+                    {% if form.laboratorio.errors %}
+                        <span class="field-error">{{ form.laboratorio.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.fecha.id_for_label }}">{{ form.fecha.label }}</label>
+                    {{ form.fecha }}
+                    {% if form.fecha.errors %}
+                        <span class="field-error">{{ form.fecha.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="field-group">
+                    <!-- espacio intencional para alinear el grid -->
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.hora_inicio.id_for_label }}">{{ form.hora_inicio.label }}</label>
+                    {{ form.hora_inicio }}
+                    {% if form.hora_inicio.errors %}
+                        <span class="field-error">{{ form.hora_inicio.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.hora_fin.id_for_label }}">{{ form.hora_fin.label }}</label>
+                    {{ form.hora_fin }}
+                    {% if form.hora_fin.errors %}
+                        <span class="field-error">{{ form.hora_fin.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="field-group field-full">
+                    <label for="{{ form.motivo.id_for_label }}">{{ form.motivo.label }}</label>
+                    {{ form.motivo }}
+                    {% if form.motivo.errors %}
+                        <span class="field-error">{{ form.motivo.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="primary-button">{{ accion }}</button>
+                <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

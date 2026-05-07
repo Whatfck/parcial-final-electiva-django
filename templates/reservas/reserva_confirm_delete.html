@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar reserva | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section form-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Confirmar acción</p>
+            <h2>Eliminar reserva</h2>
+        </div>
+        <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">← Volver al listado</a>
+    </div>
+
+    <div class="form-card danger-zone">
+        <p class="danger-warning">
+            ¿Estás seguro de que deseas eliminar la siguiente reserva? Esta acción no se puede deshacer.
+        </p>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Laboratorio</span>
+                <span class="detail-value">{{ reserva.laboratorio }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha</span>
+                <span class="detail-value">{{ reserva.fecha|date:"d/m/Y" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Horario</span>
+                <span class="detail-value">{{ reserva.hora_inicio|time:"H:i" }} – {{ reserva.hora_fin|time:"H:i" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Estado</span>
+                <span class="badge badge-{{ reserva.estado|lower }}">{{ reserva.estado }}</span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="primary-button btn-danger-solid">Sí, eliminar</button>
+            </form>
+            <a href="{% url 'reservas:detalle' reserva.pk %}" class="btn-sm btn-outline">Cancelar</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

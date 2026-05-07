@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle de reserva | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Reserva #{{ reserva.pk }}</p>
+            <h2>{{ reserva.laboratorio }}</h2>
+        </div>
+        <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">← Volver al listado</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="detail-card">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Laboratorio</span>
+                <span class="detail-value">{{ reserva.laboratorio }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Estado</span>
+                <span class="badge badge-{{ reserva.estado|lower }}">{{ reserva.estado }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha</span>
+                <span class="detail-value">{{ reserva.fecha|date:"l, d \d\e F \d\e Y" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Horario</span>
+                <span class="detail-value">{{ reserva.hora_inicio|time:"H:i" }} – {{ reserva.hora_fin|time:"H:i" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Solicitante</span>
+                <span class="detail-value">{{ reserva.usuario.get_full_name|default:reserva.usuario.username }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de solicitud</span>
+                <span class="detail-value">{{ reserva.fecha_creacion|date:"d/m/Y H:i" }}</span>
+            </div>
+            <div class="detail-item detail-full">
+                <span class="detail-label">Motivo</span>
+                <span class="detail-value">{{ reserva.motivo }}</span>
+            </div>
+        </div>
+
+        {% if reserva.estado == "Pendiente" %}
+            {% if request.user.is_staff or reserva.usuario == request.user %}
+            <div class="detail-actions">
+                <a href="{% url 'reservas:editar' reserva.pk %}" class="primary-button">Editar reserva</a>
+                <a href="{% url 'reservas:eliminar' reserva.pk %}" class="btn-sm btn-danger">Eliminar</a>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
