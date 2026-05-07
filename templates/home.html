@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <p class="eyebrow">Proyecto completado</p>
+    <h2>Sistema de Gestión de Reservas de Laboratorios</h2>
+    <p>
+        El sistema está completamente funcional e incluye autenticación con rol de docente y administrador,
+        CRUD completo de reservas con validaciones de horarios, aprobación/rechazo, estadísticas de uso,
+        exportación a CSV y filtros avanzados.
+    </p>
+    <div class="hero-actions">
+        <a class="primary-button" href="{% url 'accounts:login' %}">Entrar al sistema</a>
+    </div>
+</section>
+
+<section class="info-grid">
+    <article class="info-card">
+        <h3>Dev1 completado</h3>
+        <p>Proyecto, configuración, autenticación base, modelo Reserva y plantilla principal.</p>
+    </article>
+    <article class="info-card">
+        <h3>Dev2 completado</h3>
+        <p>CRUD de reservas con validaciones de horarios y permisos por rol.</p>
+    </article>
+    <article class="info-card">
+        <h3>Dev3 completado</h3>
+        <p>Administración, aprobación/rechazo, estadísticas, exportación CSV y filtros avanzados.</p>
+    </article>
+    <article class="info-card">
+        <h3>Características principales</h3>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+            <li>Autenticación segura con Django</li>
+            <li>Roles: Docente y Administrador</li>
+            <li>Validación de conflictos horarios</li>
+            <li>Filtros por fecha y laboratorio</li>
+            <li>Estadísticas de uso</li>
+            <li>Exportación a CSV</li>
+        </ul>
+    </article>
+    <article class="info-card">
+        <h3>Restricciones de permisos</h3>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+            <li>Docentes editan/eliminan solo sus propias reservas pendientes</li>
+            <li>Administrador aprueba o rechaza cualquier reserva</li>
+            <li>Acceso al panel de estadísticas solo para administrador</li>
+            <li>Exportación CSV disponible solo para administrador</li>
+        </ul>
+    </article>
+    <article class="info-card">
+        <h3>Modelo de datos</h3>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+            <li>Usuario responsable de la reserva</li>
+            <li>Laboratorio solicitado</li>
+            <li>Fecha y horario (inicio - fin)</li>
+            <li>Estado: Pendiente, Aprobada, Rechazada</li>
+            <li>Motivo y fecha de creación</li>
+        </ul>
+    </article>
+</section>
+
+<style>
+    ul {
+        list-style-position: inside;
+    }
+
+    ul li {
+        padding: 0.25rem 0;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle de reserva | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Reserva #{{ reserva.pk }}</p>
+            <h2>{{ reserva.laboratorio }}</h2>
+        </div>
+        <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">← Volver al listado</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="detail-card">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Laboratorio</span>
+                <span class="detail-value">{{ reserva.laboratorio }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Estado</span>
+                <span class="badge badge-{{ reserva.estado|lower }}">{{ reserva.estado }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha</span>
+                <span class="detail-value">{{ reserva.fecha|date:"l, d \d\e F \d\e Y" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Horario</span>
+                <span class="detail-value">{{ reserva.hora_inicio|time:"H:i" }} – {{ reserva.hora_fin|time:"H:i" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Solicitante</span>
+                <span class="detail-value">{{ reserva.usuario.get_full_name|default:reserva.usuario.username }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Fecha de solicitud</span>
+                <span class="detail-value">{{ reserva.fecha_creacion|date:"d/m/Y H:i" }}</span>
+            </div>
+            <div class="detail-item detail-full">
+                <span class="detail-label">Motivo</span>
+                <span class="detail-value">{{ reserva.motivo }}</span>
+            </div>
+        </div>
+
+        <!-- Acciones para docentes: editar/eliminar si está pendiente -->
+        {% if reserva.estado == "Pendiente" %}
+            {% if request.user.is_staff or reserva.usuario == request.user %}
+            <div class="detail-actions">
+                <a href="{% url 'reservas:editar' reserva.pk %}" class="primary-button">Editar reserva</a>
+                <a href="{% url 'reservas:eliminar' reserva.pk %}" class="btn-sm btn-danger">Eliminar</a>
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <!-- Acciones para admin: aprobar/rechazar si está pendiente -->
+        {% if request.user.is_staff and reserva.estado == "Pendiente" %}
+        <div class="admin-actions">
+            <p class="admin-label">Acciones de administrador</p>
+            <form method="post" class="admin-form">
+                {% csrf_token %}
+                <button type="submit" formaction="{% url 'reservas:aprobar' reserva.pk %}" class="btn-admin btn-approve">✓ Aprobar</button>
+                <button type="submit" formaction="{% url 'reservas:rechazar' reserva.pk %}" class="btn-admin btn-reject">✗ Rechazar</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .admin-actions {
+        background: #f0f8ff;
+        border-left: 4px solid #0066cc;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        border-radius: 4px;
+    }
+
+    .admin-label {
+        font-weight: 600;
+        color: #0066cc;
+        margin: 0 0 1rem 0;
+    }
+
+    .admin-form {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-admin {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-approve {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-approve:hover {
+        background-color: #218838;
+    }
+
+    .btn-reject {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-reject:hover {
+        background-color: #c82333;
+    }
+</style>
+{% endblock %}

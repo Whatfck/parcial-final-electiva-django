@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Mis reservas | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Gestión</p>
+            <h2>{% if request.user.is_staff %}Todas las reservas{% else %}Mis reservas{% endif %}</h2>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'reservas:crear' %}" class="primary-button">+ Nueva reserva</a>
+            {% if request.user.is_staff %}
+                <a href="{% url 'reservas:estadisticas' %}" class="secondary-button">📊 Estadísticas</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Filtros (solo si es admin) -->
+    {% if request.user.is_staff %}
+    <div class="filters-section">
+        <form method="get" class="filters-form">
+            <div class="filter-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" name="fecha" id="fecha" value="{{ fecha_filtro }}" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="laboratorio">Laboratorio:</label>
+                <input type="text" name="laboratorio" id="laboratorio" placeholder="Buscar..." value="{{ laboratorio_filtro }}" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="estado">Estado:</label>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="todos" {% if estado_filtro == 'todos' %}selected{% endif %}>Todos</option>
+                    {% for value, label in estados %}
+                        <option value="{{ value }}" {% if estado_filtro == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-sm btn-primary">Filtrar</button>
+            <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">Limpiar</a>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if reservas %}
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Laboratorio</th>
+                        <th>Fecha</th>
+                        <th>Hora inicio</th>
+                        <th>Hora fin</th>
+                        <th>Estado</th>
+                        {% if request.user.is_staff %}<th>Usuario</th>{% endif %}
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in reservas %}
+                    <tr>
+                        <td><strong>{{ reserva.laboratorio }}</strong></td>
+                        <td>{{ reserva.fecha|date:"d/m/Y" }}</td>
+                        <td>{{ reserva.hora_inicio|time:"H:i" }}</td>
+                        <td>{{ reserva.hora_fin|time:"H:i" }}</td>
+                        <td>
+                            <span class="badge badge-{{ reserva.estado|lower }}">
+                                {{ reserva.estado }}
+                            </span>
+                        </td>
+                        {% if request.user.is_staff %}
+                            <td>{{ reserva.usuario.username }}</td>
+                        {% endif %}
+                        <td class="action-cell">
+                            <a href="{% url 'reservas:detalle' reserva.pk %}" class="btn-sm btn-outline">Ver</a>
+                            {% if reserva.estado == "Pendiente" %}
+                                {% if request.user.is_staff or reserva.usuario == request.user %}
+                                    <a href="{% url 'reservas:editar' reserva.pk %}" class="btn-sm btn-edit">Editar</a>
+                                    <a href="{% url 'reservas:eliminar' reserva.pk %}" class="btn-sm btn-danger">Eliminar</a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">&laquo; Anterior</a>
+            {% endif %}
+            <span class="page-info">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn">Siguiente &raquo;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div class="empty-state">
+            <p>No hay reservas registradas aún.</p>
+            <a href="{% url 'reservas:crear' %}" class="primary-button">Crear primera reserva</a>
+        </div>
+    {% endif %}
+</section>
+
+<style>
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filters-section {
+        background: #f5f5f5;
+        padding: 1.5rem;
+        border-radius: 4px;
+        margin: 1.5rem 0;
+    }
+
+    .filters-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: end;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-group label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .form-control {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #0052a3;
+    }
+
+    .secondary-button {
+        background-color: #6c757d;
+        color: white;
+        padding: 0.75rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .secondary-button:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}
