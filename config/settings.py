@@ -79,10 +79,16 @@ TIME_ZONE = "America/Bogota"
 USE_I18N = True
 USE_TZ = True
 
+# Archivos estáticos
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Servir archivos con WhiteNoise
+WHITENOISE_AUTOREFRESH = True
+WHITENOISE_USE_FINDERS = True
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "accounts:login"

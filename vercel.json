@@ -3,7 +3,11 @@
   "builds": [
     {
       "src": "config/wsgi.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python@~3.8.9",
+      "config": {
+        "maxLambdaConcurrency": 1,
+        "runtime": "python3.11"
+      }
     }
   ],
   "routes": [
@@ -13,6 +17,7 @@
     }
   ],
   "env": {
-    "DJANGO_SETTINGS_MODULE": "config.settings"
+    "DJANGO_SETTINGS_MODULE": "config.settings",
+    "PYTHONUNBUFFERED": "1"
   }
 }
