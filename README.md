@@ -40,3 +40,21 @@ Desarrollar una aplicación Django que gestione las reservas de laboratorios, in
 |fecha_creacion|DateTimeField(auto_now_add=True)|Fecha en que se crea la reserva.|
 
 ---
+
+## Despliegue en Vercel
+
+Este proyecto queda preparado para desplegarse en Vercel con `vercel.json` y configuración de producción en `settings.py`.
+
+### Variables de entorno recomendadas en Vercel
+
+- `SECRET_KEY`: clave secreta de Django.
+- `DEBUG`: usar `False` en producción.
+- `ALLOWED_HOSTS`: por ejemplo `.vercel.app`.
+- `CSRF_TRUSTED_ORIGINS`: por ejemplo `https://*.vercel.app`.
+
+Como referencia local, existe el archivo `.env.example`.
+
+### Notas
+
+- Los archivos estáticos se sirven con WhiteNoise.
+- Para despliegue en Vercel se usa `config/wsgi.py` como entrada.

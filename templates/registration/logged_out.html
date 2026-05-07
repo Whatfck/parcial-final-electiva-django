@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Sesión cerrada | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <p class="eyebrow">Sesión cerrada</p>
+    <h2>Has salido correctamente del sistema.</h2>
+    <p>Puedes volver a entrar cuando necesites continuar con la gestión de reservas.</p>
+    <div class="hero-actions">
+        <a class="primary-button" href="{% url 'accounts:login' %}">Volver a ingresar</a>
+    </div>
+</section>
+{% endblock %}
