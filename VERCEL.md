@@ -1,66 +1,71 @@
 # Instrucciones para Vercel
 
-## Configuración Requerida
+## ⚠️ CONFIGURACIÓN REQUERIDA EN EL DASHBOARD
 
-Para que el proyecto funcione correctamente en Vercel, sigue estos pasos:
+El archivo `vercel.json` está configured para usar los Build Settings del dashboard. **DEBES configurar manualmente en Vercel:**
 
-### 1. Conectar el Repositorio
-- Conecta tu repositorio de GitHub a Vercel
-- Selecciona la rama `Dev1` como la rama a desplegar
+### 1. Conectar Repositorio
+- Conecta `github.com/Whatfck/parcial-final-electiva-django` 
+- Selecciona rama `Dev1`
 
-### 2. Configurar Build Command (IMPORTANTE)
+### 2. Framework y Build Settings (IMPORTANTE)
 
-En el dashboard de Vercel:
-1. Ve a tu proyecto
-2. Entra en **Settings** → **Build & Development Settings**
-3. En **Build Command**, ingresa:
-   ```
-   pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
-   ```
-4. En **Output Directory**, dejar vacío (por defecto)
+Ve a tu proyecto en Vercel → **Settings** → **Build & Development Settings**:
 
-### 3. Configurar Variables de Entorno
+**Framework Preset**: Django
 
-En el dashboard de Vercel, agrega estas variables de entorno:
-
+**Build Command**:
 ```
-SECRET_KEY=tu-clave-secreta-segura-aqui
-DEBUG=False
-ALLOWED_HOSTS=.vercel.app
-CSRF_TRUSTED_ORIGINS=https://*.vercel.app
+pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
 ```
 
-### 4. Guardar y Desplegar
+**Output Directory**: Dejar en blanco (blank)
 
-- Guarda los cambios
-- Vercel desplegará automáticamente
-- En el primer despliegue tardará más tiempo (ejecutando collectstatic)
+**Install Command**: 
+```
+pip install -r requirements.txt
+```
 
-## Notas Importantes
+### 3. Variables de Entorno
 
-- **Base de datos**: Actualmente usa SQLite. Para producción con múltiples instancias, considera usar PostgreSQL
-- **Archivos estáticos**: Se servirán con WhiteNoise directamente desde Django
-- **Migraciones**: Se ejecutan automáticamente en cada despliegue
+En **Settings** → **Environment Variables**, añade:
 
-## Solución de Problemas
+| Variable | Valor | Notas |
+|----------|-------|-------|
+| `SECRET_KEY` | Tu clave secreta | Usa un valor seguro y aleatorio |
+| `DEBUG` | `False` | IMPORTANTE: False en producción |
+| `ALLOWED_HOSTS` | `.vercel.app` | Permite todos los subdominios de Vercel |
+| `CSRF_TRUSTED_ORIGINS` | `https://*.vercel.app` | Para protección CSRF |
+
+### 4. Redeploy
+
+Una vez guardada la configuración, haz un **Redeploy** o un nuevo push a `Dev1`.
+
+## Dominio
+
+Una vez desplegado correctamente, la aplicación estará en:
+```
+https://parcial-final-electiva-django-git-dev1-[usuario]-[equipo].vercel.app
+```
+
+## Verificación
+
+- ✅ CSS debe cargar (no error de MIME type)
+- ✅ Plantillas HTML deben renderizar
+- ✅ Sistema de login debe funcionar
+- ✅ Redireccionamientos funcionar correctamente
+
+## Troubleshooting
 
 ### Error: CSS no se carga (MIME type text/html)
-Este error indica que `collectstatic` no se ejecutó correctamente. Verifica que el **Build Command** esté configurado correctamente en Vercel.
+👉 Verifica que **Build Command** incluya `collectstatic --noinput`
 
-### Error: Base de datos no existe
-Asegúrate que el **Build Command** incluya `python manage.py migrate`
+### Error: No module named 'django'
+👉 Verifica que **Install Command** sea `pip install -r requirements.txt`
 
-### Error: 404 en rutas
-Verifica que `DEBUG=False` esté configurado y que la variable `ALLOWED_HOSTS` incluya tu dominio de Vercel
+### Error: Database error
+👉 Las migraciones se ejecutan automáticamente en el **Build Command**
 
-## Dominio Vercel
+### Error: 404 en todas las rutas
+👉 Verifica que **DEBUG=False** esté configurado en variables de entorno
 
-Una vez desplegado, tu aplicación estará disponible en:
-```
-https://[proyecto-id]-[equipo].vercel.app
-```
-
-Por ejemplo:
-```
-https://parcial-final-electiva-django-git-dev1-whatfcks-projects.vercel.app
-```
