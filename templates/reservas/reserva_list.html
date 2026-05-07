@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Mis reservas | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Gestión</p>
+            <h2>{% if request.user.is_staff %}Todas las reservas{% else %}Mis reservas{% endif %}</h2>
+        </div>
+        <a href="{% url 'reservas:crear' %}" class="primary-button">+ Nueva reserva</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if reservas %}
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Laboratorio</th>
+                        <th>Fecha</th>
+                        <th>Hora inicio</th>
+                        <th>Hora fin</th>
+                        <th>Estado</th>
+                        {% if request.user.is_staff %}<th>Usuario</th>{% endif %}
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in reservas %}
+                    <tr>
+                        <td><strong>{{ reserva.laboratorio }}</strong></td>
+                        <td>{{ reserva.fecha|date:"d/m/Y" }}</td>
+                        <td>{{ reserva.hora_inicio|time:"H:i" }}</td>
+                        <td>{{ reserva.hora_fin|time:"H:i" }}</td>
+                        <td>
+                            <span class="badge badge-{{ reserva.estado|lower }}">
+                                {{ reserva.estado }}
+                            </span>
+                        </td>
+                        {% if request.user.is_staff %}
+                            <td>{{ reserva.usuario.username }}</td>
+                        {% endif %}
+                        <td class="action-cell">
+                            <a href="{% url 'reservas:detalle' reserva.pk %}" class="btn-sm btn-outline">Ver</a>
+                            {% if reserva.estado == "Pendiente" %}
+                                {% if request.user.is_staff or reserva.usuario == request.user %}
+                                    <a href="{% url 'reservas:editar' reserva.pk %}" class="btn-sm btn-edit">Editar</a>
+                                    <a href="{% url 'reservas:eliminar' reserva.pk %}" class="btn-sm btn-danger">Eliminar</a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">&laquo; Anterior</a>
+            {% endif %}
+            <span class="page-info">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn">Siguiente &raquo;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    {% else %}
+        <div class="empty-state">
+            <p>No hay reservas registradas aún.</p>
+            <a href="{% url 'reservas:crear' %}" class="primary-button">Crear primera reserva</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
