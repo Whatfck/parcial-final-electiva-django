@@ -3,11 +3,7 @@
   "builds": [
     {
       "src": "config/wsgi.py",
-      "use": "@vercel/python@~3.8.9",
-      "config": {
-        "maxLambdaConcurrency": 1,
-        "runtime": "python3.11"
-      }
+      "use": "@vercel/python@3.11"
     }
   ],
   "routes": [
