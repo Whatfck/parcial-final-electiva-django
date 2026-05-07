@@ -9,13 +9,45 @@
             <p class="eyebrow">Gestión</p>
             <h2>{% if request.user.is_staff %}Todas las reservas{% else %}Mis reservas{% endif %}</h2>
         </div>
-        <a href="{% url 'reservas:crear' %}" class="primary-button">+ Nueva reserva</a>
+        <div class="header-actions">
+            <a href="{% url 'reservas:crear' %}" class="primary-button">+ Nueva reserva</a>
+            {% if request.user.is_staff %}
+                <a href="{% url 'reservas:estadisticas' %}" class="secondary-button">📊 Estadísticas</a>
+            {% endif %}
+        </div>
     </div>
 
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
+    {% endif %}
+
+    <!-- Filtros (solo si es admin) -->
+    {% if request.user.is_staff %}
+    <div class="filters-section">
+        <form method="get" class="filters-form">
+            <div class="filter-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" name="fecha" id="fecha" value="{{ fecha_filtro }}" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="laboratorio">Laboratorio:</label>
+                <input type="text" name="laboratorio" id="laboratorio" placeholder="Buscar..." value="{{ laboratorio_filtro }}" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="estado">Estado:</label>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="todos" {% if estado_filtro == 'todos' %}selected{% endif %}>Todos</option>
+                    {% for value, label in estados %}
+                        <option value="{{ value }}" {% if estado_filtro == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-sm btn-primary">Filtrar</button>
+            <a href="{% url 'reservas:lista' %}" class="btn-sm btn-outline">Limpiar</a>
+        </form>
+    </div>
     {% endif %}
 
     {% if reservas %}
@@ -81,4 +113,70 @@
         </div>
     {% endif %}
 </section>
+
+<style>
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filters-section {
+        background: #f5f5f5;
+        padding: 1.5rem;
+        border-radius: 4px;
+        margin: 1.5rem 0;
+    }
+
+    .filters-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: end;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-group label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .form-control {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #0052a3;
+    }
+
+    .secondary-button {
+        background-color: #6c757d;
+        color: white;
+        padding: 0.75rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .secondary-button:hover {
+        background-color: #5a6268;
+    }
+</style>
 {% endblock %}
