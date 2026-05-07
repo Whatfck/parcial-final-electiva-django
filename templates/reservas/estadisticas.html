@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Estadísticas de Reservas{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Estadísticas de Reservas</h2>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total de Reservas</h3>
+            <div class="stat-number">{{ total_reservas }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>Aprobadas</h3>
+            <div class="stat-number stat-approved">{{ reservas_aprobadas }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>Pendientes</h3>
+            <div class="stat-number stat-pending">{{ reservas_pendientes }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>Rechazadas</h3>
+            <div class="stat-number stat-rejected">{{ reservas_rechazadas }}</div>
+        </div>
+    </div>
+
+    <h3>Reservas por Laboratorio</h3>
+    {% if por_laboratorio %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Laboratorio</th>
+                    <th>Total</th>
+                    <th>Aprobadas</th>
+                    <th>Pendientes</th>
+                    <th>Rechazadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lab in por_laboratorio %}
+                    <tr>
+                        <td>{{ lab.laboratorio }}</td>
+                        <td>{{ lab.total }}</td>
+                        <td>{{ lab.aprobadas }}</td>
+                        <td>{{ lab.pendientes }}</td>
+                        <td>{{ lab.rechazadas }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay datos disponibles.</p>
+    {% endif %}
+
+    <div class="actions">
+        <a href="{% url 'reservas:lista_admin' %}" class="btn">Volver a Administración</a>
+    </div>
+</div>
+{% endblock %}

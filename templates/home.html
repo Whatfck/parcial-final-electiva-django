@@ -4,14 +4,18 @@
 
 {% block content %}
 <section class="hero-card">
-    <p class="eyebrow">Base del proyecto lista</p>
-    <h2>La estructura inicial ya está preparada para continuar con el desarrollo.</h2>
+    <p class="eyebrow">Proyecto completado</p>
+    <h2>El sistema de gestión de reservas está listo y funcional.</h2>
     <p>
-        Este repositorio ya cuenta con configuración Django, autenticación base, modelo de reservas,
-        plantilla principal y la estructura de apps necesaria para seguir sin rehacer lo anterior.
+        Incluye autenticación, CRUD de reservas con validaciones, administración con aprobación/rechazo,
+        estadísticas, exportación a CSV y filtros avanzados.
     </p>
     <div class="hero-actions">
-        <a class="primary-button" href="{% url 'accounts:login' %}">Entrar al sistema</a>
+        {% if request.user.is_authenticated %}
+            <a class="primary-button" href="{% url 'reservas:lista' %}">Ver mis reservas</a>
+        {% else %}
+            <a class="primary-button" href="{% url 'accounts:login' %}">Entrar al sistema</a>
+        {% endif %}
     </div>
 </section>
 
@@ -21,12 +25,12 @@
         <p>Proyecto, configuración, autenticación base, modelo Reserva y plantilla principal.</p>
     </article>
     <article class="info-card">
-        <h3>Estructura modular</h3>
-        <p>Apps separadas para cuentas y reservas, listas para que el equipo continúe.</p>
+        <h3>Dev2 completado</h3>
+        <p>CRUD de reservas con validaciones de horarios y permisos por rol.</p>
     </article>
     <article class="info-card">
-        <h3>Consistencia</h3>
-        <p>Nombres, rutas y plantillas quedan alineados para que no se rompa la base.</p>
+        <h3>Dev3 completado</h3>
+        <p>Administración, estadísticas, exportación CSV y detalles visuales finales.</p>
     </article>
 </section>
 {% endblock %}

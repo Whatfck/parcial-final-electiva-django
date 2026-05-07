@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mis Reservas{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Mis Reservas</h2>
+
+    <div class="filters">
+        <form method="get" class="filter-form">
+            <div class="form-group">
+                <label for="laboratorio">Laboratorio:</label>
+                <select name="laboratorio" id="laboratorio">
+                    <option value="">Todos</option>
+                    {% for lab in laboratorios %}
+                        <option value="{{ lab }}" {% if request.GET.laboratorio == lab %}selected{% endif %}>{{ lab }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" name="fecha" id="fecha" value="{{ request.GET.fecha }}">
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select name="estado" id="estado">
+                    <option value="">Todos</option>
+                    <option value="Pendiente" {% if request.GET.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+                    <option value="Aprobada" {% if request.GET.estado == 'Aprobada' %}selected{% endif %}>Aprobada</option>
+                    <option value="Rechazada" {% if request.GET.estado == 'Rechazada' %}selected{% endif %}>Rechazada</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Filtrar</button>
+            <a href="{% url 'reservas:lista' %}" class="btn btn-secondary">Limpiar</a>
+        </form>
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'reservas:crear' %}" class="btn btn-primary">Nueva Reserva</a>
+        {% if request.user.is_staff %}
+            <a href="{% url 'reservas:lista_admin' %}" class="btn">Vista Admin</a>
+            <a href="{% url 'reservas:estadisticas' %}" class="btn">Estadísticas</a>
+        {% endif %}
+    </div>
+
+    {% if reservas %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Laboratorio</th>
+                    <th>Fecha</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.laboratorio }}</td>
+                        <td>{{ reserva.fecha|date:"d/m/Y" }}</td>
+                        <td>{{ reserva.hora_inicio|time:"H:i" }}</td>
+                        <td>{{ reserva.hora_fin|time:"H:i" }}</td>
+                        <td>
+                            <span class="status status-{{ reserva.estado|lower }}">{{ reserva.estado }}</span>
+                        </td>
+                        <td>
+                            {% if reserva.estado == 'Pendiente' %}
+                                <a href="{% url 'reservas:editar' reserva.pk %}" class="btn btn-small">Editar</a>
+                                <a href="{% url 'reservas:eliminar' reserva.pk %}" class="btn btn-small btn-danger">Eliminar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="btn">Anterior</a>
+                {% endif %}
+                <span>Página {{ page_obj.number }} de {{ paginator.num_pages }}</span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" class="btn">Siguiente</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <p>No tienes reservas.</p>
+    {% endif %}
+</div>
+{% endblock %}
