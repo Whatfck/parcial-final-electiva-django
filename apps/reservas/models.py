@@ -31,8 +31,8 @@ class Reserva(models.Model):
         verbose_name = "Reserva"
         verbose_name_plural = "Reservas"
         indexes = [
-            models.Index(fields=["fecha", "laboratorio"], name="reserva_fecha_laboratorio_idx"),
-            models.Index(fields=["estado"], name="reserva_estado_idx"),
+            models.Index(fields=["fecha", "laboratorio"], name="idx_reserva_fecha_lab"),
+            models.Index(fields=["estado"], name="idx_reserva_estado"),
         ]
 
     def clean(self):

@@ -208,6 +208,384 @@ body::before {
     .info-grid {
         grid-template-columns: 1fr;
     }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .data-table {
+        font-size: 0.85rem;
+    }
+}
+
+/* ============================================================
+   DEV2 — Estilos de reservas
+   ============================================================ */
+
+/* Sección genérica de página */
+.page-section {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.section-header h2 {
+    margin: 0.25rem 0 0;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    line-height: 1.1;
+}
+
+/* Botones secundarios pequeños */
+.btn-sm {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    font-size: 0.85rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn-sm:hover {
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: var(--surface-strong);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.btn-outline:hover {
+    background: var(--bg-accent);
+}
+
+.btn-edit {
+    background: rgba(35, 78, 82, 0.1);
+    border-color: rgba(35, 78, 82, 0.2);
+    color: var(--primary-dark);
+}
+
+.btn-edit:hover {
+    background: rgba(35, 78, 82, 0.18);
+}
+
+.btn-danger {
+    background: rgba(180, 30, 30, 0.08);
+    border-color: rgba(180, 30, 30, 0.2);
+    color: #b41e1e;
+}
+
+.btn-danger:hover {
+    background: rgba(180, 30, 30, 0.15);
+}
+
+.btn-danger-solid {
+    background: #b41e1e !important;
+}
+
+.btn-danger-solid:hover {
+    background: #8b1616 !important;
+}
+
+/* Alertas / mensajes */
+.alert {
+    padding: 0.9rem 1.2rem;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+}
+
+.alert-success, .alert p { margin: 0; }
+
+.alert-success {
+    background: rgba(35, 78, 82, 0.1);
+    border-color: rgba(35, 78, 82, 0.25);
+    color: var(--primary-dark);
+}
+
+.alert-error {
+    background: rgba(180, 30, 30, 0.08);
+    border-color: rgba(180, 30, 30, 0.2);
+    color: #b41e1e;
+}
+
+.alert-warning {
+    background: rgba(200, 130, 20, 0.1);
+    border-color: rgba(200, 130, 20, 0.25);
+    color: #8a5a00;
+}
+
+/* Badges de estado */
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.badge-pendiente {
+    background: rgba(200, 130, 20, 0.12);
+    color: #7a5000;
+    border: 1px solid rgba(200, 130, 20, 0.3);
+}
+
+.badge-aprobada {
+    background: rgba(35, 78, 82, 0.12);
+    color: var(--primary-dark);
+    border: 1px solid rgba(35, 78, 82, 0.3);
+}
+
+.badge-rechazada {
+    background: rgba(180, 30, 30, 0.1);
+    color: #b41e1e;
+    border: 1px solid rgba(180, 30, 30, 0.25);
+}
+
+/* Tabla de datos */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface-strong);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.data-table thead {
+    background: var(--primary);
+    color: #fff;
+}
+
+.data-table th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 0.9rem 1.2rem;
+    border-top: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+}
+
+.data-table tbody tr:hover {
+    background: rgba(35, 78, 82, 0.04);
+}
+
+.action-cell {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Estado vacío */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    color: var(--muted);
+    display: grid;
+    gap: 1rem;
+    justify-items: center;
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.page-btn {
+    color: var(--primary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    transition: background 0.15s;
+}
+
+.page-btn:hover {
+    background: var(--bg-accent);
+}
+
+.page-info {
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+/* Formulario de reserva */
+.form-section {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.form-card {
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+.field-group {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.field-full {
+    grid-column: 1 / -1;
+}
+
+.field-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(35, 78, 82, 0.18);
+    border-radius: 14px;
+    font: inherit;
+    font-size: 0.97rem;
+    background: #fff;
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(35, 78, 82, 0.12);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.field-error {
+    font-size: 0.82rem;
+    color: #b41e1e;
+}
+
+.form-actions {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+}
+
+/* Detalle de reserva */
+.detail-card {
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+}
+
+.detail-item {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.detail-full {
+    grid-column: 1 / -1;
+}
+
+.detail-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.detail-actions {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 1.8rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+/* Zona de peligro (eliminar) */
+.danger-zone {
+    border-color: rgba(180, 30, 30, 0.2);
+}
+
+.danger-warning {
+    background: rgba(180, 30, 30, 0.06);
+    border: 1px solid rgba(180, 30, 30, 0.18);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    color: #8b1616;
+    margin: 0 0 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 /* Additional styles for reservations */
