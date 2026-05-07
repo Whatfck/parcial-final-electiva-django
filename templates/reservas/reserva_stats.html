@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="section-header">
+        <div>
+            <p class="eyebrow">Administración</p>
+            <h2>Estadísticas de Uso</h2>
+        </div>
+        <a href="{% url 'reservas:lista' %}" class="primary-button">← Volver</a>
+    </div>
+
+    <!-- Resumen general -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <p class="stat-label">Total de Reservas</p>
+            <p class="stat-value">{{ total_reservas }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Aprobadas</p>
+            <p class="stat-value stat-success">{{ total_aprobadas }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Pendientes</p>
+            <p class="stat-value stat-warning">{{ total_pendientes }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Rechazadas</p>
+            <p class="stat-value stat-danger">{{ total_rechazadas }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Últimos 7 días</p>
+            <p class="stat-value">{{ reservas_ultimos_7_dias }}</p>
+        </div>
+    </div>
+
+    <!-- Laboratorios más usados -->
+    {% if labs_mas_usados %}
+    <div class="info-section">
+        <h3>Laboratorios más usados</h3>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Laboratorio</th>
+                        <th>Reservas aprobadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lab in labs_mas_usados %}
+                    <tr>
+                        <td><strong>{{ lab.laboratorio }}</strong></td>
+                        <td>{{ lab.cantidad }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Docentes más activos -->
+    {% if docentes_activos %}
+    <div class="info-section">
+        <h3>Docentes más activos</h3>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Reservas aprobadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for docente in docentes_activos %}
+                    <tr>
+                        <td><strong>{{ docente.usuario__username }}</strong></td>
+                        <td>{{ docente.cantidad }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Acciones admin -->
+    <div class="info-section">
+        <h3>Opciones de exportación</h3>
+        <p>Descargar los datos de reservas en formato CSV.</p>
+        <a href="{% url 'reservas:exportar_csv' %}" class="primary-button">⬇ Descargar CSV</a>
+    </div>
+</section>
+
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .stat-card {
+        background: #f5f5f5;
+        border-left: 4px solid #0066cc;
+        padding: 1.5rem;
+        border-radius: 4px;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: #666;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        color: #333;
+    }
+
+    .stat-success {
+        color: #28a745;
+    }
+
+    .stat-warning {
+        color: #ffc107;
+    }
+
+    .stat-danger {
+        color: #dc3545;
+    }
+
+    .info-section {
+        margin: 2rem 0;
+    }
+
+    .info-section h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+</style>
+{% endblock %}
