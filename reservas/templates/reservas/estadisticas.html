@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Estadísticas de Uso</h1>
+<ul>
+    {% for stat in stats %}
+    <li>{{ stat.laboratorio }}: {{ stat.total }} reservas</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'lista_reservas_admin' %}">Volver al Listado</a>
+{% endblock %}

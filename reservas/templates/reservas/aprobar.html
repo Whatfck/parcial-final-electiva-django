@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Aprobar/Rechazar Reserva</h1>
+<p>Usuario: {{ reserva.usuario }}</p>
+<p>Laboratorio: {{ reserva.laboratorio }}</p>
+<p>Fecha: {{ reserva.fecha }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="accion" value="aprobar">Aprobar</button>
+    <button type="submit" name="accion" value="rechazar">Rechazar</button>
+</form>
+{% endblock %}

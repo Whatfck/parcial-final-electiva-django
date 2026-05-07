@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Listado de Reservas (Admin)</h1>
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Filtrar</button>
+</form>
+<ul>
+    {% for reserva in reservas %}
+    <li>{{ reserva.usuario }} - {{ reserva.laboratorio }} - {{ reserva.fecha }} - {{ reserva.estado }}
+        {% if reserva.estado == 'pendiente' %}
+        <a href="{% url 'aprobar_reserva' reserva.pk %}">Aprobar/Rechazar</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'estadisticas' %}">Ver Estadísticas</a> | <a href="{% url 'exportar_csv' %}">Exportar CSV</a>
+{% endblock %}
