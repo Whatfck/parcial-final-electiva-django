@@ -1,0 +1,211 @@
+:root {
+    color-scheme: light;
+    --bg: #f6f1ea;
+    --bg-accent: #e7ded2;
+    --surface: rgba(255, 255, 255, 0.86);
+    --surface-strong: #ffffff;
+    --text: #1e1b18;
+    --muted: #665b52;
+    --primary: #234e52;
+    --primary-dark: #17383b;
+    --border: rgba(35, 78, 82, 0.14);
+    --shadow: 0 20px 60px rgba(40, 30, 20, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, rgba(35, 78, 82, 0.12), transparent 28%),
+        radial-gradient(circle at right top, rgba(216, 146, 72, 0.18), transparent 24%),
+        linear-gradient(135deg, var(--bg), var(--bg-accent));
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.24) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent 80%);
+}
+
+.page-shell {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+}
+
+.site-header h1,
+.hero-card h2,
+.auth-card h2,
+.info-card h3 {
+    margin: 0;
+    line-height: 1.05;
+}
+
+.eyebrow {
+    margin: 0 0 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.site-nav a,
+.link-button,
+.primary-button {
+    border-radius: 999px;
+    border: 1px solid transparent;
+    padding: 0.75rem 1rem;
+    font: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.site-nav a {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+.site-nav a:hover,
+.link-button:hover,
+.primary-button:hover {
+    transform: translateY(-1px);
+}
+
+.user-chip {
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: rgba(35, 78, 82, 0.1);
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.link-button {
+    color: #fff;
+    background: var(--primary);
+    cursor: pointer;
+}
+
+.content-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.hero-card,
+.auth-card,
+.info-card {
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+}
+
+.hero-card,
+.auth-card {
+    padding: 2rem;
+}
+
+.hero-card h2 {
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    max-width: 16ch;
+}
+
+.hero-card p,
+.auth-card p,
+.info-card p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.primary-button {
+    color: #fff;
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    background: var(--primary-dark);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.info-card {
+    padding: 1.4rem;
+}
+
+.auth-form p {
+    display: grid;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(35, 78, 82, 0.18);
+    border-radius: 14px;
+    font: inherit;
+    background: #fff;
+}
+
+@media (max-width: 860px) {
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

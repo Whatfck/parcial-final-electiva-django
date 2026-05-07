@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio | Sistema de Reservas{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <p class="eyebrow">Base del proyecto lista</p>
+    <h2>La estructura inicial ya está preparada para continuar con el desarrollo.</h2>
+    <p>
+        Este repositorio ya cuenta con configuración Django, autenticación base, modelo de reservas,
+        plantilla principal y la estructura de apps necesaria para seguir sin rehacer lo anterior.
+    </p>
+    <div class="hero-actions">
+        <a class="primary-button" href="{% url 'accounts:login' %}">Entrar al sistema</a>
+    </div>
+</section>
+
+<section class="info-grid">
+    <article class="info-card">
+        <h3>Dev1 completado</h3>
+        <p>Proyecto, configuración, autenticación base, modelo Reserva y plantilla principal.</p>
+    </article>
+    <article class="info-card">
+        <h3>Estructura modular</h3>
+        <p>Apps separadas para cuentas y reservas, listas para que el equipo continúe.</p>
+    </article>
+    <article class="info-card">
+        <h3>Consistencia</h3>
+        <p>Nombres, rutas y plantillas quedan alineados para que no se rompa la base.</p>
+    </article>
+</section>
+{% endblock %}
