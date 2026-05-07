@@ -164,6 +164,56 @@ python manage.py runserver
 
 Acceder a: http://localhost:8000/
 
+### Usar Datos de Prueba (Recomendado)
+
+Para cargar usuarios y reservas de ejemplo, ejecuta:
+
+```bash
+python manage.py setup_demo_data
+```
+
+Esto crea automáticamente:
+- 1 usuario **admin** con acceso total
+- 3 usuarios **docentes** con datos completos
+- 3 **reservas de ejemplo** (1 aprobada, 2 pendientes)
+
+---
+
+## 🔑 Credenciales de Acceso
+
+### Admin (Administrador)
+| Campo | Valor |
+|-------|-------|
+| **Username** | `admin` |
+| **Password** | `Admin@123456` |
+| **Rol** | Administrador - Acceso completo |
+
+### Docentes (3 Usuarios de Prueba)
+
+#### Usuario 1 - Carlos Méndez
+| Campo | Valor |
+|-------|-------|
+| **Username** | `carlos.mendez` |
+| **Password** | `DocCarlos@2024` |
+| **Email** | `carlos.mendez@universidad.edu` |
+| **Nombre Completo** | Carlos Méndez García |
+
+#### Usuario 2 - María López
+| Campo | Valor |
+|-------|-------|
+| **Username** | `maria.lopez` |
+| **Password** | `DocMaria@2024` |
+| **Email** | `maria.lopez@universidad.edu` |
+| **Nombre Completo** | María López Rodríguez |
+
+#### Usuario 3 - Juan Torres
+| Campo | Valor |
+|-------|-------|
+| **Username** | `juan.torres` |
+| **Password** | `DocJuan@2024` |
+| **Email** | `juan.torres@universidad.edu` |
+| **Nombre Completo** | Juan Torres Silva |
+
 ---
 
 ## 📊 Endpoint de Estadísticas y Exportación
