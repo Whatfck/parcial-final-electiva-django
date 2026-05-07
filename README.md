@@ -2,6 +2,8 @@
 
 ## Git Graph
 
+
+
 ---
 
 ## EJERCICIO 1: Sistema de Gestión de Reservas de Laboratorios
